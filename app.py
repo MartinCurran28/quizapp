@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for 
 score = 0
+score2 = 0
  
 app = Flask(__name__)
         
@@ -13,13 +14,20 @@ questions = [
     Question([0], "Python"),
     Question([1], "Paris"),
     Question([2], "Moonlight"),
-    Question([3], "Lemonade")
+    Question([3], "Lemonade"),
+    Question([4], "Yes"),
+    Question([5], "Call Me By Your Name"),
+    Question([6], "Engels & Marx"),
+    Question([7], "Freud"),
+    Question([8], "Gordon Ramsay"),
             
 ]
-
+     
 @app.route('/')
 def quiz():    
     return render_template('index.html')
+    
+data=score    
     
 @app.route('/quiz', methods=['POST'])    
 def quiz_answers():
@@ -59,8 +67,61 @@ def question_four():
             global score
             score += 1
             return render_template('results.html',data=score)
-    return render_template('results.html',data=score)           
+    return render_template('results.html',data=score)   
+    
+@app.route('/ready', methods=['POST'])
+def results1():
+    for Question in questions:
+        answer = request.form['ready']
+        if answer == Question.answer:
+            return render_template('novel.html')
+    return render_template('novel.html') 
+    
+data2=score2
+    
+@app.route('/novel', methods=['POST'])
+def question5():
+    for Question in questions:
+        answer = request.form['novel']
+        if answer == Question.answer:
+            global score2
+            score2 += 1
+            return render_template('history.html',data2=score2)
+    return render_template('history.html',data2=score2)
             
+@app.route('/history', methods=['POST'])
+def question6():
+    for Question in questions:
+        answer = request.form['history']
+        if answer == Question.answer:
+            global score2
+            score2 += 1
+            return render_template('psychology.html',data2=score2)
+    return render_template('psychology.html',data2=score2)
+    
+@app.route('/psychology', methods=['POST'])
+def question7():
+    for Question in questions:
+        answer = request.form['psychology']
+        if answer == Question.answer:
+            global score2
+            score2 += 1
+            return render_template('cuisine.html',data2=score2)
+    return render_template('cuisine.html',data2=score2)
+                        
+@app.route('/cuisine', methods=['POST'])
+def question8():
+    for Question in questions:
+        answer = request.form['cuisine']
+        if answer == Question.answer:
+            global score2
+            score2 += 1
+            return render_template('results2.html',data2=score2)
+    return render_template('results2.html',data2=score2)   
+    
+@app.route('/results2', methods=['POST'])
+def results2():
+    return str(score) + str(score2)
             
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
