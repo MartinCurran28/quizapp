@@ -12,13 +12,13 @@ class Question:
 questions = [
     Question([0], "Python"),
     Question([1], "Paris"),
-    Question([2], "Moonlight")
+    Question([2], "Moonlight"),
+    Question([3], "Lemonade")
             
 ]
 
 @app.route('/')
 def quiz():    
-    global score
     return render_template('index.html')
     
 @app.route('/quiz', methods=['POST'])    
@@ -27,10 +27,9 @@ def quiz_answers():
         answer = request.form['language']
         global score
         if answer == Question.answer:
-            score = score +1
+            score = score+1
             return render_template('capitals.html',data=score)
-        else:
-            return render_template('capitals.html',data=score)
+    return render_template('capitals.html',data=score)
     
 @app.route('/question', methods=['POST'])
 def question_two():
@@ -38,10 +37,9 @@ def question_two():
         answer = request.form['capital']
         global score
         if answer == Question.answer:
-            score = score +1
+            score = score+1
             return render_template('movies.html',data=score)
-        else:
-            return render_template('movies.html',data=score)
+    return render_template('movies.html',data=score)
             
 @app.route('/movie', methods=['POST'])
 def question_three():
@@ -50,9 +48,18 @@ def question_three():
         if answer == Question.answer:
             global score
             score += 1
-            return render_template('Music.html',data=score)
-        else:
-            return render_template('Music.html',data=score)            
+            return render_template('music.html',data=score)
+    return render_template('music.html',data=score)       
+    
+@app.route('/music', methods=['POST'])
+def question_four():
+    for Question in questions:
+        answer = request.form['album']
+        if answer == Question.answer:
+            global score
+            score += 1
+            return render_template('results.html',data=score)
+    return render_template('results.html',data=score)           
             
             
 if __name__ == '__main__':
