@@ -19,15 +19,14 @@ questions = [
     Question([5], "Call Me By Your Name"),
     Question([6], "Engels & Marx"),
     Question([7], "Freud"),
-    Question([8], "Gordon Ramsay"),
+    Question([8], "Gordon Ramsay")
             
 ]
+    
      
 @app.route('/')
 def quiz():    
     return render_template('index.html')
-    
-data=score    
     
 @app.route('/quiz', methods=['POST'])    
 def quiz_answers():
@@ -37,7 +36,7 @@ def quiz_answers():
         if answer == Question.answer:
             score = score+1
             return render_template('capitals.html',data=score)
-    return render_template('capitals.html',data=score)
+    return render_template("index.html") + answer + "<h4>is not correct, guess again.</h4>"
     
 @app.route('/question', methods=['POST'])
 def question_two():
@@ -47,8 +46,8 @@ def question_two():
         if answer == Question.answer:
             score = score+1
             return render_template('movies.html',data=score)
-    return render_template('movies.html',data=score)
-            
+    return render_template('capitals.html', data=score) + answer + "<h4>is not correct, guess again.</h4>"
+    
 @app.route('/movie', methods=['POST'])
 def question_three():
     for Question in questions:
@@ -57,7 +56,8 @@ def question_three():
             global score
             score += 1
             return render_template('music.html',data=score)
-    return render_template('music.html',data=score)       
+    return render_template("movies.html", data=score) + answer + "<h4>is not correct. Wanna guess again or pass?</h4>"
+          
     
 @app.route('/music', methods=['POST'])
 def question_four():
@@ -67,7 +67,7 @@ def question_four():
             global score
             score += 1
             return render_template('results.html',data=score)
-    return render_template('results.html',data=score)   
+    return render_template("music.html", data=score) + answer + "<h4>is not correct, guess again.</h4>"
     
 @app.route('/ready', methods=['POST'])
 def results1():
@@ -77,8 +77,6 @@ def results1():
             return render_template('novel.html')
     return render_template('novel.html') 
     
-data2=score2
-    
 @app.route('/novel', methods=['POST'])
 def question5():
     for Question in questions:
@@ -87,7 +85,7 @@ def question5():
             global score2
             score2 += 1
             return render_template('history.html',data2=score2)
-    return render_template('history.html',data2=score2)
+    return render_template('novel.html',data2=score2) + answer + "<h4>is not correct, guess again.</h4>"
             
 @app.route('/history', methods=['POST'])
 def question6():
@@ -97,7 +95,7 @@ def question6():
             global score2
             score2 += 1
             return render_template('psychology.html',data2=score2)
-    return render_template('psychology.html',data2=score2)
+    return render_template('history.html',data2=score2) + answer + "<h4>is not correct, guess again.</h4>"
     
 @app.route('/psychology', methods=['POST'])
 def question7():
@@ -107,22 +105,19 @@ def question7():
             global score2
             score2 += 1
             return render_template('cuisine.html',data2=score2)
-    return render_template('cuisine.html',data2=score2)
+    return render_template('psychology.html',data2=score2) + answer + "<h4>is not correct, guess again.</h4>"
                         
 @app.route('/cuisine', methods=['POST'])
 def question8():
     for Question in questions:
+        global score
         answer = request.form['cuisine']
         if answer == Question.answer:
             global score2
             score2 += 1
-            return render_template('results2.html',data2=score2)
-    return render_template('results2.html',data2=score2)   
-    
-@app.route('/results2', methods=['POST'])
-def results2():
-    return str(score) + str(score2)
-            
+            return render_template('results2.html',data2=score2, data=score)
+    return render_template('cuisine.html',data2=score2) + answer + "<h4>is not correct, guess again.</h4>"
+        
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
     port=int(os.environ.get('PORT')),
