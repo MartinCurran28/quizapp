@@ -35,8 +35,7 @@ def quiz():
 def getUser():
     name = request.form["username"]
     global username
-    if username == name:
-        return render_template('index.html')
+    username == name
     
 @app.route('/quiz', methods=['POST'])    
 def quiz_answers():

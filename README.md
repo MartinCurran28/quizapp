@@ -1,3 +1,0 @@
-"""- I found during the writing of the code that my for loop actually clashed with my else statement and after speaking to a friend about the issue they pointed out that they were conflicting and so I had to 
-rewrite the statement (somewhat less beautifully) to make it work. But it does work. It took a long time to realise what I was doing wrng. I could say the same for much of this assignment which I honestly found incredibly difficult to navigate despite
-how simple to output looks and seems. I learned many lessons just trying to figure out why things didnt work, and , in a way, I think it's toughened my POV of how code can and cannot be written.""""
