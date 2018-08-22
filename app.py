@@ -1,10 +1,12 @@
 import os
+import json
 from flask import Flask, render_template, request, redirect, url_for 
 score = 0
 score2 = 0
+username = ""
  
 app = Flask(__name__)
-        
+
 class Question:
     def __init__(self, prompt, answer):
         self.prompt = prompt
@@ -22,11 +24,19 @@ questions = [
     Question([8], "Gordon Ramsay")
             
 ]
-    
-     
+
+
+
 @app.route('/')
-def quiz():    
-    return render_template('index.html')
+def quiz():
+    return render_template('user.html')
+    
+@app.route('/start',methods=["POST"])
+def getUser():
+    name = request.form["username"]
+    global username
+    if username == name:
+        return render_template('index.html')
     
 @app.route('/quiz', methods=['POST'])    
 def quiz_answers():
@@ -35,7 +45,7 @@ def quiz_answers():
         global score
         if answer == Question.answer:
             score = score+1
-            return render_template('capitals.html',data=score)
+            return render_template('capitals.html',data=score) 
     return render_template("index.html") + answer + "<h4>is not correct, guess again.</h4>"
     
 @app.route('/question', methods=['POST'])
@@ -47,7 +57,7 @@ def question_two():
             score = score+1
             return render_template('movies.html',data=score)
     return render_template('capitals.html', data=score) + answer + "<h4>is not correct, guess again.</h4>"
-    
+     
 @app.route('/movie', methods=['POST'])
 def question_three():
     for Question in questions:
@@ -56,7 +66,7 @@ def question_three():
             global score
             score += 1
             return render_template('music.html',data=score)
-    return render_template("movies.html", data=score) + answer + "<h4>is not correct. Wanna guess again or pass?</h4>"
+    return render_template("movies.html", data=score) + answer + "<h4>is not correct. Wanna guess again</h4>"
           
     
 @app.route('/music', methods=['POST'])
