@@ -1,10 +1,10 @@
 import os
 import json
 from flask import Flask, render_template, request, redirect, url_for 
+global score, name
 score = 0
 score2 = 0
-username = ""
- 
+
 app = Flask(__name__)
 
 class Question:
@@ -25,17 +25,16 @@ questions = [
             
 ]
 
-
-
 @app.route('/')
 def quiz():
-    return render_template('user.html')
-    
+    global score
+    return render_template('index.html')
 @app.route('/start',methods=["POST"])
 def getUser():
     name = request.form["username"]
     global username
-    username == name
+    username = name
+    return render_template('index.html')
     
 @app.route('/quiz', methods=['POST'])    
 def quiz_answers():
@@ -126,7 +125,7 @@ def question8():
             score2 += 1
             return render_template('results2.html',data2=score2, data=score)
     return render_template('cuisine.html',data2=score2) + answer + "<h4>is not correct, guess again.</h4>"
-        
+            
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
     port=int(os.environ.get('PORT')),
